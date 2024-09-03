@@ -3,6 +3,19 @@ import { requestLogin } from "./http.js";
 const root = document.querySelector(".root");
 
 const render = () => {
+  // nếu có token thì sẽ hiển thị profile
+  // trường hợp không phải là application JSON
+  if (localStorage.getItem("user_token")) {
+    root.innerHTML = `<div class="profile">
+    <h2>Chào mừng bạn đã quay trở lại</h2>
+    <ul class="list-unstyled">
+      <li>Chào bạn : Phan Hiệp</li>
+      <li><a href="$">Đăng xuất</a></li>
+    </ul>
+  </div>`;
+
+    return;
+  }
   root.innerHTML = `
     <h2>Đăng nhập</h2>
       <form action="" class="login">
@@ -54,6 +67,9 @@ const handleLoginForm = () => {
         // chuyển object thành JSON, lưu vào local
         localStorage.setItem("user_token", JSON.stringify(response));
         e.target.reset();
+
+        // render
+        render();
       }
     }
   });
